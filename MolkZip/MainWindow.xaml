@@ -1,0 +1,47 @@
+﻿<Window x:Class="MolkZip.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MolkZip"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Background="#E8E8E8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Menyraden-->          
+        <Grid Grid.Row="0" Background="White">
+            <Menu VerticalAlignment="Center" Background="Transparent">
+                <MenuItem Header="Help"/>
+                <MenuItem Header="?????"/>
+            </Menu>
+            <TextBlock Text="mölk" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0" FontSize="20" FontWeight="Bold"/>
+        </Grid>
+
+        <!--Mittenraden-->
+        <Grid x:Name="Middlebar" Grid.Row="1" Margin="0, 20, 0, 20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Margin="15" BorderBrush="#5f2383" BorderThickness="4" CornerRadius="5">
+                <StackPanel x:Name="Files" AllowDrop="True" Background="White" Drop="Files_Drop">
+                    <ListBox x:Name="FilesList">
+                        
+                    </ListBox>
+                </StackPanel>
+            </Border>
+           
+            <StackPanel x:Name="Buttons" Grid.Column="1" VerticalAlignment="Center">
+                <Button Content="Molk" Margin="10" Height="30"/>
+                <Button Content="Unmolk" Margin="10" Height="30"/>
+            </StackPanel>
+           
+        </Grid>
+        
+    </Grid>
+</Window>
