@@ -6,4 +6,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="logo-vit.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="logo-vit.png" />
+  </ItemGroup>
+
 </Project>
