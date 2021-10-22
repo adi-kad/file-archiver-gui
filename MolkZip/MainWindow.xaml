@@ -39,8 +39,6 @@
             <StackPanel x:Name="Buttons" Grid.Column="1" VerticalAlignment="Center">
                 <Button Content="Molk" Margin="10" Height="30" Click="Molk"/>
                 <Button Content="Unmolk" Margin="10" Height="30" Click="Unmolk"/>
-                <Button Content="Molk" Margin="10" Height="68" Width="124"/>
-                <Button Content="Unmolk" Margin="10" Height="30"/>
             </StackPanel>
 
         </Grid>
