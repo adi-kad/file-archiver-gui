@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MolkZip"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MÖLK" Height="520" Width="950" MinHeight="250" MinWidth="475">
     <Grid Background="#E8E8E8">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -13,37 +13,43 @@
         </Grid.RowDefinitions>
 
         <!--Menyraden-->
-        <StackPanel  Grid.Column="3" VerticalAlignment="Center">
+
         <Grid Grid.Row="0" Background="#FF352154">
             <Menu VerticalAlignment="Center" Background="Transparent">
                 <MenuItem Header="Help"/>
                 <MenuItem Header="?????" />
             </Menu>
-            <Image Source="/logo-vit.png" HorizontalAlignment="Left" Margin="672,11,0,7" Width="114"/>
+            <Image Source="/logo-vit.png" HorizontalAlignment="right" Width="114" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
-        </StackPanel>
+
 
         <!--Mittenraden-->
-        <Grid x:Name="Middlebar" Grid.Row="1" Margin="0, 20, 0, 20">
+        <Grid x:Name="Middlebar" Grid.Row="1" Margin="0,20,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="7*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" Margin="15" BorderBrush="#5f2383" BorderThickness="4" CornerRadius="5">
-                <StackPanel x:Name="Files" AllowDrop="True" Background="White">
+            <Border Grid.Column="0" Margin="39,15,15,38" BorderBrush="#5f2383" BorderThickness="4" CornerRadius="5">
+                <StackPanel x:Name="Files" AllowDrop="True" Background="White" Margin="0,0,0,6">
+                 
 
-                    <ListBox x:Name="FilesList" Height="328"  Drop="Files_Drop" AllowDrop="True" Width="510" HorizontalAlignment="Center"/>
-
+                    <ListBox x:Name="FilesList" Height="296"  Drop="Files_Drop" AllowDrop="True" Width="510" HorizontalAlignment="Center"/>
+                    <Label Name="labelTip" Content="Drag and dorp your files here or use Add!" HorizontalAlignment="center" VerticalAlignment="Bottom" RenderTransformOrigin="0.529,-0.759"/>
                 </StackPanel>
             </Border>
 
             <StackPanel x:Name="Buttons" Grid.Column="1" VerticalAlignment="Center">
                 <Button Content="Molk" Margin="10" Height="68" Width="124"/>
                 <Button Content="Unmolk" Margin="10" Height="30"/>
-            </StackPanel>
+                <Button Content="  Add   " Margin="10" HorizontalAlignment="Center"  VerticalAlignment= "Bottom" Click="Button_Click"/>
 
+                <Button Content="Remove" Margin="10" HorizontalAlignment="Center"  VerticalAlignment= "Bottom" Click="Button_Click_1"/>
+            </StackPanel>
         </Grid>
+        <StackPanel x:Name="A_R_R" Grid.Column="2" VerticalAlignment="Center">
+            
+        </StackPanel>
 
     </Grid>
 </Window>
