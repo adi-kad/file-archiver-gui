@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="telerik.ui.for.wpf.netcore.xaml.trial" Version="2021.3.914" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="logo-vit.png" />
   </ItemGroup>
 

@@ -19,7 +19,7 @@
                 <MenuItem Header="Help"/>
                 <MenuItem Header="?????" />
             </Menu>
-            <Image Source="/logo-vit.png" HorizontalAlignment="Left" Margin="672,11,0,7" Width="114"/>
+            <Image Source="/logo-vit.png" HorizontalAlignment="Right" Height="40" Margin="15,10"/>
         </Grid>
         </StackPanel>
 
@@ -32,9 +32,7 @@
 
             <Border Grid.Column="0" Margin="15" BorderBrush="#5f2383" BorderThickness="4" CornerRadius="5">
                 <StackPanel x:Name="Files" AllowDrop="True" Background="White">
-
                     <ListBox x:Name="FilesList" Height="328"  Drop="Files_Drop" AllowDrop="True" Width="510" HorizontalAlignment="Center"/>
-
                 </StackPanel>
             </Border>
 
