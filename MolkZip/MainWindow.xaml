@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MolkZip"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Molk" Height="450" Width="800">
     <Grid Background="#E8E8E8">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -37,6 +37,8 @@
             </Border>
 
             <StackPanel x:Name="Buttons" Grid.Column="1" VerticalAlignment="Center">
+                <Button Content="Molk" Margin="10" Height="30" Click="Molk"/>
+                <Button Content="Unmolk" Margin="10" Height="30" Click="Unmolk"/>
                 <Button Content="Molk" Margin="10" Height="68" Width="124"/>
                 <Button Content="Unmolk" Margin="10" Height="30"/>
             </StackPanel>
