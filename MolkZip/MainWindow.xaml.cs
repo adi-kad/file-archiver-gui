@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -97,11 +98,47 @@ namespace MolkZip
         private void Unmolk(object sender, RoutedEventArgs e)
         {
             string unmolkPath = projectRootDir + "unmolk.exe";
-            string sourceFilePath = projectRootDir + "archive.molk"; //TODO: don't hardcode this.
-            List<string> args = new List<string>();
-            args.Add(sourceFilePath);
-            args.Add("-d testFolder");
-            RunCLIprogram(unmolkPath, args);
+            CommonOpenFileDialog folderPickerDialog = new CommonOpenFileDialog {
+                IsFolderPicker = true,
+                InitialDirectory = projectRootDir,
+            };
+            if (FilesList.Items.IsEmpty)
+            {
+                MessageBox.Show("Couldn't unmolk." +
+                                "\nReason: File list is empty.",
+                                "Couldn't unmolk",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Exclamation);
+            }
+            else if(folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                int successfulUnmolks = 0;
+                foreach(string filepath in FilesList.Items)
+                {
+                    //Primitive check to see if file is a molk archive
+                    if(System.IO.Path.GetExtension(filepath) != ".molk")
+                    {
+                        MessageBox.Show("Couldn't unmolk file " + filepath +
+                                "\nReason: File is not a molk archive.",
+                                "Couldn't unmolk file",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Exclamation);
+                        continue;
+                    }
+                    List<string> args = new List<string>();
+                    args.Add(filepath);
+                    args.Add("-d \"" + folderPickerDialog.FileName + "\"");
+                    RunCLIprogram(unmolkPath, args);
+                    ++successfulUnmolks;
+                }
+                if(successfulUnmolks > 0)
+                {
+                    MessageBox.Show($"Unmolked {successfulUnmolks} molk archives.",
+                                "Unmolking done",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                }
+            }
         }
     }
 }
