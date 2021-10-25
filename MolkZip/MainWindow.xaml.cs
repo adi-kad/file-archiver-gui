@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+//using System.Windows.Forms;
 
 namespace MolkZip
 {
@@ -46,7 +48,7 @@ namespace MolkZip
 
                         ListBoxItem file = new ListBoxItem();
                         file.Content = filename;
-                        FilesList.Items.Add(file);
+                        //FilesList.Items.Add(file);
                     }
 
                 }
@@ -62,6 +64,7 @@ namespace MolkZip
             commandLineArgs.Append("\"");
             commandLineArgs.Append(String.Join("\" \"", args));
             commandLineArgs.Append("\"");
+            Debug.WriteLine(commandLineArgs.ToString());
             System.Diagnostics.Process.Start(programPath, commandLineArgs.ToString());
         }
 
@@ -80,12 +83,26 @@ namespace MolkZip
 
         private void Unmolk(object sender, RoutedEventArgs e)
         {
+            string destinationFolder = "";
+
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                destinationFolder = dialog.SelectedPath;
+            }
+            
             string unmolkPath = projectRootDir + "unmolk.exe";
             string sourceFilePath = projectRootDir + "archive.molk"; //TODO: don't hardcode this.
+            Debug.WriteLine(projectRootDir);
             List<string> args = new List<string>();
             args.Add(sourceFilePath);
-            args.Add("-d testFolder");
+            args.Add($"-d {destinationFolder}");
             RunCLIprogram(unmolkPath, args);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
