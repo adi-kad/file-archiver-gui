@@ -22,7 +22,6 @@ namespace MolkZip
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<string> filesList = new List<string>();
         //Assumes Visual Studio project folder structure
         static readonly string projectRootDir =
             Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\";
@@ -40,15 +39,28 @@ namespace MolkZip
 
                 foreach (string filename in files)
                 {
-                    if (!filesList.Contains(filename))
+                    bool isDuplicate = false;
+                    foreach (object obj in FilesList.Items)
                     {
-                        filesList.Add(filename);
-
-                        ListBoxItem file = new ListBoxItem();
-                        file.Content = filename;
-                        FilesList.Items.Add(file);
+                        //Has this filename already been added to the list?
+                        if (((string)obj).Equals(filename))
+                        {
+                            isDuplicate = true;
+                            MessageBox.Show("Couldn't add file " + filename +
+                                "\nReason: Filename is already in the list.",
+                                "Couldn't add file",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Exclamation);
+                            break;
+                        }
                     }
-
+                    if (!isDuplicate)
+                    {
+                        //TODO: Do some testing to see if these commented-out lines are actually needed.
+                        //ListBoxItem file = new ListBoxItem();
+                        //file.Content = filename;
+                        FilesList.Items.Add(filename);
+                    }
                 }
             }
         }
@@ -62,6 +74,7 @@ namespace MolkZip
             commandLineArgs.Append("\"");
             commandLineArgs.Append(String.Join("\" \"", args));
             commandLineArgs.Append("\"");
+            //MessageBox.Show(commandLineArgs.ToString());
             System.Diagnostics.Process.Start(programPath, commandLineArgs.ToString());
         }
 
@@ -74,7 +87,10 @@ namespace MolkZip
             //instead of mimicking the entire folder structure of the file's full path.
             args.Add("-j");
             args.Add(destFilePath);
-            args.AddRange(filesList);
+            foreach (Object obj in FilesList.Items)
+            {
+                args.Add((string)obj);
+            }
             RunCLIprogram(molkPath, args);
         }
 
