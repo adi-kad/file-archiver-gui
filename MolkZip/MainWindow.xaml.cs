@@ -37,6 +37,9 @@ namespace MolkZip
 
         private void Files_Drop(object sender, DragEventArgs e)
         {
+            labelTip.Visibility = Visibility.Hidden;
+            remove.Visibility = Visibility.Visible;
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -61,8 +64,8 @@ namespace MolkZip
                     if (!isDuplicate)
                     {
                         //TODO: Do some testing to see if these commented-out lines are actually needed.
-                        //ListBoxItem file = new ListBoxItem();
-                        //file.Content = filename;
+                        ListBoxItem file = new ListBoxItem();
+                        file.Content = filename;          
                         FilesList.Items.Add(filename);
 
                     }
@@ -175,6 +178,104 @@ namespace MolkZip
                                 MessageBoxImage.Information);
                 }
             }
+        }
+
+        private void browse(object sender, RoutedEventArgs e)
+        {
+            addFiles();
+        }
+
+        private void removeFile(object sender, RoutedEventArgs e)
+        {
+            FilesList.Items.Remove(FilesList.SelectedItem);
+            hideRemoveButton();
+
+        }
+
+        private void FilesList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+
+                FilesList.Items.Remove(FilesList.SelectedItem);
+                hideRemoveButton();
+            }
+        }
+
+        private void mainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                if (MessageBox.Show("Do you want to close this window?",
+                    "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    // Do not close the window  
+                }
+            }
+            else if (e.Key == Key.Insert)
+            {
+                addFiles();
+            }
+        }
+
+        private void hideRemoveButton()
+        {
+            if (FilesList.Items.Count == 0)
+            {
+                remove.Visibility = Visibility.Hidden;
+                labelTip.Visibility = Visibility.Visible;
+            }
+        }
+        private void addFiles()
+        {
+
+            OpenFileDialog newDiolog = new OpenFileDialog();
+            newDiolog.ShowDialog();
+            string fileName = newDiolog.FileName;
+            if (fileName != "")
+            {
+                FilesList.Items.Add(fileName);
+                labelTip.Visibility = Visibility.Hidden;
+            }
+
+            if (FilesList.Items.Count > 0)
+            {
+                remove.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void addFile_MouseMove(object sender, MouseEventArgs e)
+        {
+            addFile.Background = Brushes.Magenta;
+        }
+
+        private void addFile_MouseEnter(object sender, MouseEventArgs e)
+        {
+            addFile.FontSize = 18;
+            addFile.FontWeight = FontWeights.Bold;
+        }
+
+        private void addFile_MouseLeave(object sender, MouseEventArgs e)
+        {
+            addFile.FontSize = 16;
+            addFile.FontWeight = FontWeights.Normal;
+        }
+
+        private void remove_MouseEnter(object sender, MouseEventArgs e)
+        {
+            remove.FontSize = 18;
+            remove.FontWeight = FontWeights.Bold;
+        }
+
+        private void remove_MouseLeave(object sender, MouseEventArgs e)
+        {
+            remove.FontSize = 16;
+            remove.FontWeight = FontWeights.Bold;
+
         }
     }
 }

@@ -8,7 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\logo-vit.png" />
+    <None Remove="Images\upload.png" />
     <None Remove="logo-vit.png" />
+    <None Remove="upload.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\logo-vit.png" />
+    <Resource Include="Images\upload.png" />
     <Resource Include="logo-vit.png" />
+    <Resource Include="upload.png" />
   </ItemGroup>
 
 </Project>
