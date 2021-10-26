@@ -82,17 +82,37 @@ namespace MolkZip
         private void Molk(object sender, RoutedEventArgs e)
         {
             string molkPath = projectRootDir + "molk.exe";
-            string destFilePath = projectRootDir + "archive.molk"; //TODO: don't hardcode this.
-            List<string> args = new List<string>();
-            //-j flag makes it so that the archive contains *just* the file,
-            //instead of mimicking the entire folder structure of the file's full path.
-            args.Add("-j");
-            args.Add(destFilePath);
-            foreach (string str in FilesList.Items)
+            CommonOpenFileDialog folderPickerDialog = new CommonOpenFileDialog
             {
-                args.Add(str);
+                IsFolderPicker = true,
+                InitialDirectory = projectRootDir,
+            };
+            if (FilesList.Items.IsEmpty)
+            {
+                MessageBox.Show("Couldn't molk." +
+                                "\nReason: File list is empty.",
+                                "Couldn't molk",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Exclamation);
             }
-            RunCLIprogram(molkPath, args);
+            else if (folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string destFilePath = folderPickerDialog.FileName + "\\archive.molk"; //TODO: let user choose filename
+                List<string> args = new List<string>();
+                //-j flag makes it so that the archive contains *just* the file,
+                //instead of mimicking the entire folder structure of the file's full path.
+                args.Add("-j");
+                args.Add(destFilePath);
+                foreach (string str in FilesList.Items)
+                {
+                    args.Add(str);
+                }
+                RunCLIprogram(molkPath, args);
+                MessageBox.Show("Molked files into archive.molk",
+                                "Molking done",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+            }
         }
 
         private void Unmolk(object sender, RoutedEventArgs e)
