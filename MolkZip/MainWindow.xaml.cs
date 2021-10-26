@@ -1,3 +1,5 @@
+
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -24,7 +26,6 @@ namespace MolkZip
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<string> filesList = new List<string>();
         //Assumes Visual Studio project folder structure
         static readonly string projectRootDir =
             Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\";
@@ -42,15 +43,29 @@ namespace MolkZip
 
                 foreach (string filename in files)
                 {
-                    if (!filesList.Contains(filename))
+                    bool isDuplicate = false;
+                    foreach (string str in FilesList.Items)
                     {
-                        filesList.Add(filename);
-
-                        ListBoxItem file = new ListBoxItem();
-                        file.Content = filename;
-                        //FilesList.Items.Add(file);
+                        //Has this filename already been added to the list?
+                        if (str.Equals(filename))
+                        {
+                            isDuplicate = true;
+                            MessageBox.Show("Couldn't add file " + filename +
+                                "\nReason: Filename is already in the list.",
+                                "Couldn't add file",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Exclamation);
+                            break;
+                        }
                     }
+                    if (!isDuplicate)
+                    {
+                        //TODO: Do some testing to see if these commented-out lines are actually needed.
+                        //ListBoxItem file = new ListBoxItem();
+                        //file.Content = filename;
+                        FilesList.Items.Add(filename);
 
+                    }
                 }
             }
         }
@@ -64,21 +79,45 @@ namespace MolkZip
             commandLineArgs.Append("\"");
             commandLineArgs.Append(String.Join("\" \"", args));
             commandLineArgs.Append("\"");
-            Debug.WriteLine(commandLineArgs.ToString());
+            //MessageBox.Show(commandLineArgs.ToString());
+
             System.Diagnostics.Process.Start(programPath, commandLineArgs.ToString());
         }
 
         private void Molk(object sender, RoutedEventArgs e)
         {
             string molkPath = projectRootDir + "molk.exe";
-            string destFilePath = projectRootDir + "archive.molk"; //TODO: don't hardcode this.
-            List<string> args = new List<string>();
-            //-j flag makes it so that the archive contains *just* the file,
-            //instead of mimicking the entire folder structure of the file's full path.
-            args.Add("-j");
-            args.Add(destFilePath);
-            args.AddRange(filesList);
-            RunCLIprogram(molkPath, args);
+            CommonOpenFileDialog folderPickerDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                InitialDirectory = projectRootDir,
+            };
+            if (FilesList.Items.IsEmpty)
+            {
+                MessageBox.Show("Couldn't molk." +
+                                "\nReason: File list is empty.",
+                                "Couldn't molk",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Exclamation);
+            }
+            else if (folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string destFilePath = folderPickerDialog.FileName + "\\archive.molk"; //TODO: let user choose filename
+                List<string> args = new List<string>();
+                //-j flag makes it so that the archive contains *just* the file,
+                //instead of mimicking the entire folder structure of the file's full path.
+                args.Add("-j");
+                args.Add(destFilePath);
+                foreach (string str in FilesList.Items)
+                {
+                    args.Add(str);
+                }
+                RunCLIprogram(molkPath, args);
+                MessageBox.Show("Molked files into archive.molk",
+                                "Molking done",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+            }
         }
 
         private void Unmolk(object sender, RoutedEventArgs e)
@@ -93,13 +132,49 @@ namespace MolkZip
             }
             
             string unmolkPath = projectRootDir + "unmolk.exe";
-            string sourceFilePath = projectRootDir + "archive.molk"; //TODO: don't hardcode this.
-            Debug.WriteLine(projectRootDir);
-            List<string> args = new List<string>();
-            args.Add(sourceFilePath);
-            args.Add($"-d {destinationFolder}");
-            RunCLIprogram(unmolkPath, args);
+            CommonOpenFileDialog folderPickerDialog = new CommonOpenFileDialog {
+                IsFolderPicker = true,
+                InitialDirectory = projectRootDir,
+            };
+            
+            if (FilesList.Items.IsEmpty)
+            {
+                MessageBox.Show("Couldn't unmolk." +
+                                "\nReason: File list is empty.",
+                                "Couldn't unmolk",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Exclamation);
+            }
+            else if(folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                int successfulUnmolks = 0;
+                foreach(string filepath in FilesList.Items)
+                {
+                    //Primitive check to see if file is a molk archive
+                    if(System.IO.Path.GetExtension(filepath) != ".molk")
+                    {
+                        MessageBox.Show("Couldn't unmolk file " + filepath +
+                                "\nReason: File is not a molk archive.",
+                                "Couldn't unmolk file",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Exclamation);
+                        continue;
+                    }
+                    List<string> args = new List<string>();
+                    args.Add(filepath);
+                    args.Add("-d");
+                    args.Add(folderPickerDialog.FileName);
+                    RunCLIprogram(unmolkPath, args);
+                    ++successfulUnmolks;
+                }
+                if(successfulUnmolks > 0)
+                {
+                    MessageBox.Show($"Unmolked {successfulUnmolks} molk archives.",
+                                "Unmolking done",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                }
+            }
         }
-
     }
 }
