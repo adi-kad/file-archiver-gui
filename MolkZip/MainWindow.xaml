@@ -60,7 +60,7 @@
 
 
                 </Button>
-
+                  <!-- Removing files-->
                 <Button Name="remove" Content="Remove" MouseEnter="remove_MouseEnter" MouseLeave="remove_MouseLeave" Margin="10" HorizontalAlignment="Center" Click="removeFile" Cursor="Hand" AutomationProperties.HelpText="{DynamicResource ButtonHelpText1}" Visibility="Hidden" Height="50" Width="79"  FontSize="16">
                     <Button.Resources>
                         <Style TargetType="Border">
