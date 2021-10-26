@@ -33,7 +33,7 @@ namespace MolkZip
 
         private void Files_Drop(object sender, DragEventArgs e)
         {
-            
+            // Visibility of label and remove button
             labelTip.Visibility = Visibility.Hidden;
             remove.Visibility = Visibility.Visible;
            
