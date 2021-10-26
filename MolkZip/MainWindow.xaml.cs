@@ -109,7 +109,6 @@ namespace MolkZip
         }
         private void addFiles()
         {
-
             OpenFileDialog newDiolog = new OpenFileDialog();
             newDiolog.ShowDialog();
             string fileName = newDiolog.FileName;
