@@ -4,14 +4,11 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="logo-vit.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="telerik.ui.for.wpf.netcore.xaml.trial" Version="2021.3.914" />
   </ItemGroup>
 
   <ItemGroup>
