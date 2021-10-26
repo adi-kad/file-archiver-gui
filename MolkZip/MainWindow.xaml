@@ -17,7 +17,7 @@
         <Grid Grid.Row="0" Background="#FF352154">
             <Menu VerticalAlignment="Center" Background="Transparent" Padding="0,10">
                 <MenuItem Header="Help" Foreground="#FFF"/>
-                    <MenuItem Header="?????"  Foreground="#FFF" Click="MenuItem_Click"/>
+                    <MenuItem Header="?????"  Foreground="#FFF"/>
             </Menu>
             <Image Source="/logo-vit.png" HorizontalAlignment="Right" Height="15" Margin="15,10"/>
         </Grid>
@@ -40,7 +40,7 @@
                     <StackPanel Grid.Row="1" Grid.Column="0" x:Name="Files" AllowDrop="True" VerticalAlignment="Center">
                         <Image Source="Images/upload.png" Height="64" VerticalAlignment="Center"/>
                         <TextBlock Text="Drag and drop file or browse" HorizontalAlignment="Center"/>
-                        <!--<ListBox x:Name="FilesList" Drop="Files_Drop" AllowDrop="True" HorizontalAlignment="Center" Visibility="Hidden"/>-->
+                        <ListBox x:Name="FilesList" Drop="Files_Drop" AllowDrop="True" HorizontalAlignment="Center" Visibility="Hidden"/>
                     </StackPanel>
                 </Border>
             </Grid>
