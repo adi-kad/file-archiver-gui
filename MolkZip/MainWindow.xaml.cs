@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,9 @@ namespace MolkZip
     public partial class MainWindow : Window
     {
         List<string> filesList = new List<string>();
+        //Assumes Visual Studio project folder structure
+        static readonly string projectRootDir =
+            Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\";
 
         public MainWindow()
         {
@@ -46,16 +50,22 @@ namespace MolkZip
                     if (!filesList.Contains(filename))
                     {
                         filesList.Add(filename);
-         
+
                         ListBoxItem file = new ListBoxItem();
                         file.Content = filename;
                         FilesList.Items.Add(file);
+
                         
                     }                    
                     
+
+                    }
+
+
                 }
             }
         }
+
 
         private void browse(object sender, RoutedEventArgs e)
         {
@@ -153,6 +163,41 @@ namespace MolkZip
             remove.FontSize = 16;
             remove.FontWeight = FontWeights.Bold;
 
+         }
+        public static void RunCLIprogram(string programPath, List<string> args)
+        {
+            //Combine list elements into a single string, where each
+            //element is surrounded by quotes and separated by spaces.
+            //Done mostly to handle args (such as file paths) that contain spaces.
+            StringBuilder commandLineArgs = new StringBuilder();
+            commandLineArgs.Append("\"");
+            commandLineArgs.Append(String.Join("\" \"", args));
+            commandLineArgs.Append("\"");
+            System.Diagnostics.Process.Start(programPath, commandLineArgs.ToString());
         }
-    }
+
+        private void Molk(object sender, RoutedEventArgs e)
+        {
+            string molkPath = projectRootDir + "molk.exe";
+            string destFilePath = projectRootDir + "archive.molk"; //TODO: don't hardcode this.
+            List<string> args = new List<string>();
+            //-j flag makes it so that the archive contains *just* the file,
+            //instead of mimicking the entire folder structure of the file's full path.
+            args.Add("-j");
+            args.Add(destFilePath);
+            args.AddRange(filesList);
+            RunCLIprogram(molkPath, args);
+        }
+
+        private void Unmolk(object sender, RoutedEventArgs e)
+        {
+            string unmolkPath = projectRootDir + "unmolk.exe";
+            string sourceFilePath = projectRootDir + "archive.molk"; //TODO: don't hardcode this.
+            List<string> args = new List<string>();
+            args.Add(sourceFilePath);
+            args.Add("-d testFolder");
+            RunCLIprogram(unmolkPath, args);
+
+        }
+    
 }
