@@ -87,6 +87,7 @@ namespace MolkZip
 
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+
             {
                 destinationFolder = dialog.SelectedPath;
             }
@@ -100,9 +101,5 @@ namespace MolkZip
             RunCLIprogram(unmolkPath, args);
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

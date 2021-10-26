@@ -53,6 +53,13 @@
                         <Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
                     </Grid>
                 </Button>
+                  <!-- Removing files-->
+                <Button Name="remove" Content="Remove" MouseEnter="remove_MouseEnter" MouseLeave="remove_MouseLeave" Margin="10" HorizontalAlignment="Center" Click="removeFile" Cursor="Hand" AutomationProperties.HelpText="{DynamicResource ButtonHelpText1}" Visibility="Hidden" Height="50" Width="79"  FontSize="16">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
                 <Button HorizontalContentAlignment="Stretch" Click="Unmolk" Margin="10">
                     <Grid>
                         <TextBlock Grid.Column="0" Text="Unmolk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
