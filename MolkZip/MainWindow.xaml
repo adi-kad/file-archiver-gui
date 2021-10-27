@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MolkZip"
         mc:Ignorable="d"
         Title="Molk" Height="450" Width="800"
-        KeyDown="mainWindow_KeyDown">
+        KeyDown="MainWindow_KeyDown">
     <Grid Background="#19352154">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -69,12 +69,12 @@
                 <Button 
                     Name="addFile" 
                     Content="Add" 
-                    MouseLeave="addFile_MouseLeave" 
-                    MouseEnter="addFile_MouseEnter"  
+                    MouseLeave="AddFile_MouseLeave" 
+                    MouseEnter="AddFile_MouseEnter"  
                     Margin="10" 
                     HorizontalAlignment="Center" 
                     HorizontalContentAlignment="Stretch"
-                    Click="browse" 
+                    Click="BrowseButtonClick" 
                     Background="White" 
                     BorderBrush="#FF602483"   
                     Foreground="black">
@@ -82,9 +82,9 @@
                 <Button 
                     Name="remove" 
                     Content="Remove" 
-                    MouseEnter="remove_MouseEnter" 
-                    MouseLeave="remove_MouseLeave" Margin="10" 
-                    HorizontalAlignment="Center" Click="removeFile" Cursor="Hand" 
+                    MouseEnter="Remove_MouseEnter" 
+                    MouseLeave="Remove_MouseLeave" Margin="10" 
+                    HorizontalAlignment="Center" Click="RemoveFile" Cursor="Hand" 
                     Visibility="Hidden" 
                     Height="50" 
                     Width="79"  
