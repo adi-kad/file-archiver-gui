@@ -54,13 +54,13 @@
                 <Button HorizontalContentAlignment="Stretch" Click="Molk" Margin="10">
                     <Grid>
                         <TextBlock Grid.Column="0" Text="Molk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <!--<Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>-->
+                        <Image Grid.Column="1" Source="/molk.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
                     </Grid>
                 </Button>
                 <Button HorizontalContentAlignment="Stretch" Click="Unmolk" Margin="10">
                     <Grid>
                         <TextBlock Grid.Column="0" Text="Unmolk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <!--<Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>-->
+                        <Image Grid.Column="1" Source="/unmolk.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
                     </Grid>
                 </Button>
 
