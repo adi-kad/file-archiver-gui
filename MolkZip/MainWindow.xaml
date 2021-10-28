@@ -58,21 +58,22 @@
             </Grid>
 
             <StackPanel x:Name="Buttons" Grid.Column="1" VerticalAlignment="Center" Margin="5">
-                <Button HorizontalContentAlignment="Stretch" Click="Molk" Margin="10">
-                    <Grid>
-                        <TextBlock Grid.Column="0" Text="Molk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <Image Grid.Column="1" Source="/molk.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
-                    </Grid>
-                </Button>
-                <Button HorizontalContentAlignment="Stretch" Click="Unmolk" Margin="10">
-                    <Grid>
-                        <TextBlock Grid.Column="0" Text="Unmolk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <Image Grid.Column="1" Source="/unmolk.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
-                    </Grid>
+                <Border CornerRadius="8" Background="#BF352154" Margin="10" >
+                    <Button HorizontalContentAlignment="Stretch" Click="Molk" Background="Transparent" BorderThickness="0" Padding="10, 5">
+                        <Grid>
+                            <TextBlock Grid.Column="0" Text="Molk" Foreground="#FFF" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <Image Grid.Column="1" Source="/molk.png" Height="34" HorizontalAlignment="Right" />
+                        </Grid>
                     </Button>
-
-                <!--<Button HorizontalContentAlignment="Stretch" Margin="10" Content="Add"/>
-                <Button HorizontalContentAlignment="Stretch" Margin="10" Content="Remove" />-->
+                </Border>
+                <Border CornerRadius="8" Background="#FFF" BorderBrush="#BF352154" BorderThickness="2" Margin="10">
+                    <Button HorizontalContentAlignment="Stretch" Click="Unmolk" Background="Transparent" BorderThickness="0" Padding="10, 5">
+                        <Grid>
+                            <TextBlock Grid.Column="0" Text="Unmolk" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <Image Grid.Column="1" Source="/unmolk.png" Height="34" HorizontalAlignment="Right" />
+                        </Grid>
+                    </Button>
+                </Border>
                 <Button 
                     Name="addFile" 
                     Content="Add" 
