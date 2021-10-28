@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\folder.png" />
     <None Remove="Images\logo-vit.png" />
     <None Remove="Images\molk.png" />
     <None Remove="Images\unmolk.png" />
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\folder.png" />
     <Resource Include="Images\logo-vit.png" />
     <Resource Include="Images\molk.png" />
     <Resource Include="Images\unmolk.png" />
