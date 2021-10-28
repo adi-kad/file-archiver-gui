@@ -34,6 +34,38 @@ namespace MolkZip
         {
             InitializeComponent();
         }
+
+        private void AddFilesToList(string[] filepaths)
+        {
+            foreach (string filepath in filepaths)
+            {
+                bool isDuplicate = false;
+                foreach (FilesListItem item in FilesList.Items)
+                {
+                    //Has this filename already been added to the list?
+                    string filename = item.Filename;
+                    if (filename.Equals(System.IO.Path.GetFileName(filepath)))
+                    {
+                        isDuplicate = true;
+                        MessageBox.Show($"Couldn't add file {filename}." +
+                            "\nReason: Filename is already in the list.",
+                            "Couldn't add file",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Exclamation);
+                        break;
+                    }
+                }
+                if (!isDuplicate)
+                {
+                    //TODO: Do some testing to see if these commented-out lines are actually needed.
+                    //ListBoxItem file = new ListBoxItem();
+                    //file.Content = filepath;
+                    //FilesList.Items.Add(filename);
+                    FilesList.Items.Add(new FilesListItem(filepath, FilesList));
+                }
+            }
+        }
+
         private void Files_Drop(object sender, DragEventArgs e)
         {
             labelTip.Visibility = Visibility.Hidden;
@@ -42,33 +74,7 @@ namespace MolkZip
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-                foreach (string filename in files)
-                {
-                    bool isDuplicate = false;
-                    foreach (string str in FilesList.Items)
-                    {
-                        //Has this filename already been added to the list?
-                        if (str.Equals(filename))
-                        {
-                            isDuplicate = true;
-                            MessageBox.Show("Couldn't add file " + filename +
-                                "\nReason: Filename is already in the list.",
-                                "Couldn't add file",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Exclamation);
-                            break;
-                        }
-                    }
-                    if (!isDuplicate)
-                    {
-                        //TODO: Do some testing to see if these commented-out lines are actually needed.
-                        ListBoxItem file = new ListBoxItem();
-                        file.Content = filename;
-                        FilesList.Items.Add(filename);
-
-                    }
-                }
+                AddFilesToList(files);
             }
         }
 
@@ -81,8 +87,8 @@ namespace MolkZip
             commandLineArgs.Append("\"");
             commandLineArgs.Append(String.Join("\" \"", args));
             commandLineArgs.Append("\"");
-            //MessageBox.Show(commandLineArgs.ToString());
 
+            //MessageBox.Show(commandLineArgs.ToString());
             System.Diagnostics.Process.Start(programPath, commandLineArgs.ToString());
         }
 
@@ -110,9 +116,9 @@ namespace MolkZip
                 //instead of mimicking the entire folder structure of the file's full path.
                 args.Add("-j");
                 args.Add(destFilePath);
-                foreach (string str in FilesList.Items)
+                foreach (FilesListItem item in FilesList.Items)
                 {
-                    args.Add(str);
+                    args.Add(item.FullPath);
                 }
                 RunCLIprogram(molkPath, args);
                 MessageBox.Show("Molked files into archive.molk",
@@ -124,15 +130,6 @@ namespace MolkZip
 
         private void Unmolk(object sender, RoutedEventArgs e)
         {
-            string destinationFolder = "";
-
-            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-
-            {
-                destinationFolder = dialog.SelectedPath;
-            }
-
             string unmolkPath = projectRootDir + "unmolk.exe";
             CommonOpenFileDialog folderPickerDialog = new CommonOpenFileDialog
             {
@@ -151,12 +148,13 @@ namespace MolkZip
             else if (folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 int successfulUnmolks = 0;
-                foreach (string filepath in FilesList.Items)
+                
+                foreach(FilesListItem item in FilesList.Items)
                 {
                     //Primitive check to see if file is a molk archive
-                    if (System.IO.Path.GetExtension(filepath) != ".molk")
+                    if(System.IO.Path.GetExtension(item.Filename) != ".molk")
                     {
-                        MessageBox.Show("Couldn't unmolk file " + filepath +
+                        MessageBox.Show($"Couldn't unmolk file {System.IO.Path.GetFileName(item.FullPath)}" +
                                 "\nReason: File is not a molk archive.",
                                 "Couldn't unmolk file",
                                 MessageBoxButton.OK,
@@ -164,7 +162,7 @@ namespace MolkZip
                         continue;
                     }
                     List<string> args = new List<string>();
-                    args.Add(filepath);
+                    args.Add(item.FullPath);
                     args.Add("-d");
                     args.Add(folderPickerDialog.FileName);
                     RunCLIprogram(unmolkPath, args);
@@ -180,16 +178,33 @@ namespace MolkZip
             }
         }
 
-        private void browse(object sender, RoutedEventArgs e)
+        private void BrowseButtonClick(object sender, RoutedEventArgs e)
         {
-            addFiles();
+            BrowseForFile();
         }
 
-        private void removeFileButton(object sender, RoutedEventArgs e)
+        private void RemoveFile(object sender, RoutedEventArgs e)
         {
-            removeFile();
+            FilesList.Items.Remove(FilesList.SelectedItem);
+            HideRemoveButton();
         }
-        private void mainWindow_KeyDown(object sender, KeyEventArgs e)
+
+        private void FilesList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+
+                FilesList.Items.Remove(FilesList.SelectedItem);
+                HideRemoveButton();
+            }
+        }
+
+        private void RemoveFileButton(object sender, RoutedEventArgs e)
+        {
+            RemoveFile();
+        }
+        
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
@@ -205,16 +220,15 @@ namespace MolkZip
                     }
                     break;
                 case Key.Delete:
-                    removeFile();
+                    RemoveFile();
                     break;
                 case Key.Insert:
-                    addFiles();
+                    BrowseForFile();
                     break;
             }
         }
 
-
-        private void removeFile()
+        private void RemoveFile()
         {
           
             if (MessageBox.Show("All the files  will be deleted from the list!",
@@ -223,20 +237,61 @@ namespace MolkZip
                      hideRemoveButton();
                      }
         }
-        private void hideRemoveButton()
+
+        private void HideRemoveButton()
         {
-            if (FilesList.Items.IsEmpty)
+            if (FilesList.Items.Count == 0)
             {
                 remove.Visibility = Visibility.Hidden;
                 labelTip.Visibility = Visibility.Visible;
             }
         }
-        private void addFiles()
+
+        private void BrowseForFile()
         {
-            var fileExplorer = new System.Diagnostics.ProcessStartInfo();
-            fileExplorer.FileName = "explorer.exe";
-            fileExplorer.Arguments = @"";
-            System.Diagnostics.Process.Start(fileExplorer);
+
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.ShowDialog();
+            string fileName = fileDialog.FileName;
+            if (fileName != "")
+            {
+                AddFilesToList(new string[] { fileName });
+                labelTip.Visibility = Visibility.Hidden;
+            }
+
+            if (FilesList.Items.Count > 0)
+            {
+                remove.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void AddFile_MouseMove(object sender, MouseEventArgs e)
+        {
+            addFile.Background = Brushes.Magenta;
+        }
+
+        private void AddFile_MouseEnter(object sender, MouseEventArgs e)
+        {
+            addFile.FontSize = 18;
+            addFile.FontWeight = FontWeights.Bold;
+        }
+
+        private void AddFile_MouseLeave(object sender, MouseEventArgs e)
+        {
+            addFile.FontSize = 16;
+            addFile.FontWeight = FontWeights.Normal;
+        }
+
+        private void Remove_MouseEnter(object sender, MouseEventArgs e)
+        {
+            remove.FontSize = 18;
+            remove.FontWeight = FontWeights.Bold;
+        }
+
+        private void Remove_MouseLeave(object sender, MouseEventArgs e)
+        {
+            remove.FontSize = 16;
+            remove.FontWeight = FontWeights.Bold;
         }
     }
 }

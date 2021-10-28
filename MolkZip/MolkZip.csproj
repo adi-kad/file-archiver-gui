@@ -8,7 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\logo-vit.png" />
+    <None Remove="Images\molk.png" />
+    <None Remove="Images\unmolk.png" />
+    <None Remove="Images\upload.png" />
     <None Remove="logo-vit.png" />
+    <None Remove="molk.png" />
+    <None Remove="unmolk.png" />
+    <None Remove="upload.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\logo-vit.png" />
+    <Resource Include="Images\molk.png" />
+    <Resource Include="Images\unmolk.png" />
+    <Resource Include="Images\upload.png" />
     <Resource Include="logo-vit.png" />
+    <Resource Include="molk.png" />
+    <Resource Include="unmolk.png" />
+    <Resource Include="upload.png" />
   </ItemGroup>
 
 </Project>
