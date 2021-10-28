@@ -1,4 +1,3 @@
-
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 ﻿using Microsoft.Win32;
 using System;
@@ -17,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.LinkLabel;
 //using System.Windows.Forms;
 
 namespace MolkZip
@@ -29,7 +29,7 @@ namespace MolkZip
         //Assumes Visual Studio project folder structure
         static readonly string projectRootDir =
             Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\";
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -105,7 +105,7 @@ namespace MolkZip
                 MessageBox.Show("Couldn't molk." +
                                 "\nReason: File list is empty.",
                                 "Couldn't molk",
-                                MessageBoxButton.OK,
+                                MessageBoxButton.OKCancel,
                                 MessageBoxImage.Exclamation);
             }
             else if (folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
@@ -131,11 +131,12 @@ namespace MolkZip
         private void Unmolk(object sender, RoutedEventArgs e)
         {
             string unmolkPath = projectRootDir + "unmolk.exe";
-            CommonOpenFileDialog folderPickerDialog = new CommonOpenFileDialog {
+            CommonOpenFileDialog folderPickerDialog = new CommonOpenFileDialog
+            {
                 IsFolderPicker = true,
                 InitialDirectory = projectRootDir,
             };
-            
+
             if (FilesList.Items.IsEmpty)
             {
                 MessageBox.Show("Couldn't unmolk." +
@@ -144,9 +145,10 @@ namespace MolkZip
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Exclamation);
             }
-            else if(folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            else if (folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 int successfulUnmolks = 0;
+                
                 foreach(FilesListItem item in FilesList.Items)
                 {
                     //Primitive check to see if file is a molk archive
@@ -166,7 +168,7 @@ namespace MolkZip
                     RunCLIprogram(unmolkPath, args);
                     ++successfulUnmolks;
                 }
-                if(successfulUnmolks > 0)
+                if (successfulUnmolks > 0)
                 {
                     MessageBox.Show($"Unmolked {successfulUnmolks} molk archives.",
                                 "Unmolking done",
@@ -225,6 +227,7 @@ namespace MolkZip
                 labelTip.Visibility = Visibility.Visible;
             }
         }
+
         private void BrowseForFile()
         {
 
@@ -270,7 +273,6 @@ namespace MolkZip
         {
             remove.FontSize = 16;
             remove.FontWeight = FontWeights.Bold;
-
         }
     }
 }
