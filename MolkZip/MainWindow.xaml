@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MolkZip"
         mc:Ignorable="d"
-        Title="Molk" Height="450" Width="800" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
+        Title="Molk" Height="450" Width="800" WindowStartupLocation="CenterScreen" 
         KeyDown="mainWindow_KeyDown">
     <Grid Background="#19352154">
         <Grid.RowDefinitions>
@@ -64,42 +64,52 @@
                 <Button HorizontalContentAlignment="Stretch" Click="Unmolk" Margin="10">
                     <Grid>
                         <TextBlock Grid.Column="0" Text="Unmolk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <!--<Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>-->
+                        <Image Grid.Column="1" Source="unmolk.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
                     </Grid>
-                    </Button>
+                </Button>
 
                 <!--<Button HorizontalContentAlignment="Stretch" Margin="10" Content="Add"/>
                 <Button HorizontalContentAlignment="Stretch" Margin="10" Content="Remove" />-->
                 <Button
                     Name="addFile"
-                    Content="      Add    "
+                 
                     Margin="10"
                     HorizontalAlignment="Center"
                     HorizontalContentAlignment="Stretch"
                     Click="browse" 
                     Background="White"
-                    Foreground="black" Height="37" Width="67">
+                    Foreground="black" Height="47" Width="92">
+
+
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
                         </Style>
                     </Button.Resources>
+                    <Grid>
+                        <TextBlock Grid.Column="0" Text="Add" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                        <Image Source="images/add.png" HorizontalAlignment="Right" Margin="0,10,10,4" Width="28"/>
+                    </Grid>
                 </Button>
                 <Button
                     Name="remove"
-                    Content="Remove"
                     Background="White"
                     Margin="10"
                     HorizontalAlignment="Center" Click="removeFileButton" Cursor="Hand"
-                    Visibility="Hidden"
-                    Height="42"
-                    Width="74"
+                    Visibility="Visible"
+                    Height="59"
+                    Width="117"
                     FontSize="16">
+                    <Grid>
+                        <TextBlock Grid.Column="0" Text="Remove" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                        <Image Grid.Column="1" Source="/images/remove.png" Height="34" HorizontalAlignment="Left" Margin="74,5,0,5"/>
+                    </Grid>
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="15"/>
                         </Style>
                     </Button.Resources>
+
                 </Button>
 
             </StackPanel>
