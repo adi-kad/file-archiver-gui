@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MolkZip"
         mc:Ignorable="d"
-        Title="Molk" Height="450" Width="800" WindowStartupLocation="CenterScreen" 
+        Height="450" Title="Molk" Width="800" WindowStartupLocation="CenterScreen" 
         KeyDown="MainWindow_KeyDown">
     <Grid Background="#19352154">
         <Grid.RowDefinitions>
@@ -41,13 +41,23 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Upload your files" Padding="0,0,0,10" FontWeight="Bold"/>
-                <Border AllowDrop="True" Drop="Files_Drop" Grid.Row="1" BorderBrush="#FF352154" BorderThickness="2" Background="#FFF" CornerRadius="5">
+                <Border AllowDrop="True" Drop="Files_Drop" Grid.Row="1" BorderBrush="#BF352154" BorderThickness="2" Background="#FFF" CornerRadius="5">
                     <Grid>
                         <ListBox x:Name="FilesList" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                         <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
                             <StackPanel x:Name="labelTip">
                               <Image Source="/Images/upload.png" Height="64" VerticalAlignment="Center" />
-                              <TextBlock Text="Drag and drop file or browse" HorizontalAlignment="Center" />
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <TextBlock Text="Drag and drop file(s) or" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                                    <Border CornerRadius="8" Margin="10" Background="#FFF0673F" BorderThickness="2">
+                                        <Button Background="Transparent" BorderThickness="0" Click="BrowseButtonClick">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="browse" Foreground="#FFF" FontWeight="DemiBold" VerticalAlignment="Center" Margin="5"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </Border>                                        
+                                </StackPanel>
+                               
                             </StackPanel>
                         </StackPanel>
                     </Grid>
@@ -89,7 +99,7 @@
                     Background="White"
                     Margin="10"
                     HorizontalAlignment="Center" Click="RemoveFileButton" Cursor="Hand"
-                    Visibility="Visible"
+                    Visibility="Hidden"
                     Height="59"
                     Width="117"
                     FontSize="16">
@@ -104,7 +114,6 @@
                     </Button.Resources>
                 </Button>
             </StackPanel>
-          
         </Grid>
 
     </Grid>
