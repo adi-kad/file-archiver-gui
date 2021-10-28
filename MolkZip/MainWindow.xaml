@@ -43,7 +43,7 @@
                 <TextBlock Grid.Row="0" Text="Upload your files" Padding="0,0,0,10" FontWeight="Bold"/>
                 <Border AllowDrop="True" Drop="Files_Drop" Grid.Row="1" BorderBrush="#BF352154" BorderThickness="2" Background="#FFF" CornerRadius="5">
                     <Grid>
-                        <ListBox x:Name="FilesList" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                        <ListBox x:Name="FilesList" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,35" BorderThickness="0"/>
                         <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
                             <StackPanel x:Name="labelTip">
                               <Image Source="/Images/upload.png" Height="64" VerticalAlignment="Center" />
@@ -60,6 +60,30 @@
                                
                             </StackPanel>
                         </StackPanel>
+                        <Grid x:Name="Toolbar" VerticalAlignment="Bottom" Height="35" Background="#EEE" Visibility="Hidden"> <!--Set to visible when list is populated with files-->
+                            <StackPanel Orientation="Horizontal" Margin="5,5" HorizontalAlignment="Left">
+                                <TextBlock Text="Drag/Drop files or" VerticalAlignment="Center"/>
+                                <Border BorderThickness="2" CornerRadius="4" Margin="5,0" Background="#FFF0673F">
+                                    <!--<Button Content="browse 📁" FontWeight="DemiBold" BorderThickness="0" Click="BrowseButtonClick" Padding="5, 0" Margin="5,0"/>-->
+                                    <Button Background="Transparent" BorderThickness="0" Click="BrowseButtonClick">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Browse" Foreground="#FFF" VerticalAlignment="Center" Margin="5,0"/>
+                                            <Image Source="/images/folder.png" Margin="3,3" />
+                                        </StackPanel>
+                                    </Button>
+                                </Border>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5,5" HorizontalAlignment="Right">
+                                <Border BorderThickness="2"  Margin="5,0" CornerRadius="4" Background="#FFF14747" >
+                                    <Button BorderThickness="0" Background="Transparent">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Clear all ❌" Foreground="#FFF" VerticalAlignment="Center" Margin="5,0"/>
+                                        </StackPanel>
+                                    </Button>
+                                   
+                                </Border>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                 </Border>
             </Grid>
