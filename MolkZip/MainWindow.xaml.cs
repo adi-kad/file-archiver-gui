@@ -56,11 +56,35 @@ namespace MolkZip
                 }
                 if (!isDuplicate)
                 {
-                    //TODO: Do some testing to see if these commented-out lines are actually needed.
-                    //ListBoxItem file = new ListBoxItem();
-                    //file.Content = filepath;
-                    //FilesList.Items.Add(filename);
                     FilesList.Items.Add(new FilesListItem(filepath, FilesList));
+                }
+            }
+        }
+
+        private void BrowseButtonClick(object sender, RoutedEventArgs e)
+        {
+            BrowseForFile();
+        }
+
+        private void BrowseForFile()
+        {
+            CommonOpenFileDialog fileDialog = new CommonOpenFileDialog
+            {
+                InitialDirectory = projectRootDir,
+                Multiselect = true
+            };
+            if (fileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                var fileNames = fileDialog.FileNames;
+                if (fileNames.Count() != 0)
+                {
+                    AddFilesToList(fileNames.ToArray());
+                    labelTip.Visibility = Visibility.Hidden;
+                }
+
+                if (FilesList.Items.Count > 0)
+                {
+                    remove.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -77,18 +101,37 @@ namespace MolkZip
             }
         }
 
-        public static void RunCLIprogram(string programPath, List<string> args)
+        private void HideRemoveButton()
         {
-            //Combine list elements into a single string, where each
-            //element is surrounded by quotes and separated by spaces.
-            //Done mostly to handle args (such as file paths) that contain spaces.
-            StringBuilder commandLineArgs = new StringBuilder();
-            commandLineArgs.Append("\"");
-            commandLineArgs.Append(String.Join("\" \"", args));
-            commandLineArgs.Append("\"");
+            if (FilesList.Items.Count == 0)
+            {
+                remove.Visibility = Visibility.Hidden;
+                labelTip.Visibility = Visibility.Visible;
+            }
+        }
 
-            //MessageBox.Show(commandLineArgs.ToString());
-            System.Diagnostics.Process.Start(programPath, commandLineArgs.ToString());
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    if (MessageBox.Show("Do you want to close this window?",
+                   "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        // Do not close the window  
+                    }
+                    break;
+                case Key.Delete:
+                    RemoveFile();
+                    break;
+                case Key.Insert:
+                    BrowseForFile();
+                    break;
+            }
         }
 
         private void Molk(object sender, RoutedEventArgs e)
@@ -127,6 +170,48 @@ namespace MolkZip
             }
         }
 
+        private void RemoveAllFiles()
+        {
+            if (!FilesList.Items.IsEmpty)
+            {
+                if (MessageBox.Show("All the files  will be deleted from the list!",
+                        "Remove all", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    FilesList.Items.Clear();
+                    HideRemoveButton();
+                }
+            }
+        }
+
+        private void RemoveFile()
+        {
+            int deletionIndex = FilesList.SelectedIndex;
+            FilesList.Items.Remove(FilesList.Items[deletionIndex]);
+            if (!FilesList.Items.IsEmpty)
+            {
+                FilesList.SelectedIndex = Math.Min(deletionIndex, FilesList.Items.Count - 1);
+            }
+        }
+
+        private void RemoveFileButton(object sender, RoutedEventArgs e)
+        {
+            RemoveAllFiles();
+        }
+
+        public static void RunCLIprogram(string programPath, List<string> args)
+        {
+            //Combine list elements into a single string, where each
+            //element is surrounded by quotes and separated by spaces.
+            //Done mostly to handle args (such as file paths) that contain spaces.
+            StringBuilder commandLineArgs = new StringBuilder();
+            commandLineArgs.Append("\"");
+            commandLineArgs.Append(String.Join("\" \"", args));
+            commandLineArgs.Append("\"");
+
+            //MessageBox.Show(commandLineArgs.ToString());
+            System.Diagnostics.Process.Start(programPath, commandLineArgs.ToString());
+        }
+
         private void Unmolk(object sender, RoutedEventArgs e)
         {
             string unmolkPath = projectRootDir + "unmolk.exe";
@@ -147,11 +232,11 @@ namespace MolkZip
             else if (folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 int successfulUnmolks = 0;
-                
-                foreach(FilesListItem item in FilesList.Items)
+
+                foreach (FilesListItem item in FilesList.Items)
                 {
                     //Primitive check to see if file is a molk archive
-                    if(System.IO.Path.GetExtension(item.Filename) != ".molk")
+                    if (System.IO.Path.GetExtension(item.Filename) != ".molk")
                     {
                         MessageBox.Show($"Couldn't unmolk file {System.IO.Path.GetFileName(item.FullPath)}" +
                                 "\nReason: File is not a molk archive.",
@@ -173,102 +258,6 @@ namespace MolkZip
                                 "Unmolking done",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Information);
-                }
-            }
-        }
-
-        private void BrowseButtonClick(object sender, RoutedEventArgs e)
-        {
-            BrowseForFile();
-        }
-
-        private void RemoveFile(object sender, RoutedEventArgs e)
-        {
-            FilesList.Items.Remove(FilesList.SelectedItem);
-            HideRemoveButton();
-        }
-
-        private void FilesList_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete)
-            {
-                FilesList.Items.Remove(FilesList.SelectedItem);
-                HideRemoveButton();
-            }
-        }
-
-        private void RemoveFileButton(object sender, RoutedEventArgs e)
-        {
-            RemoveFile();
-        }
-        
-        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Escape:
-                    if (MessageBox.Show("Do you want to close this window?",
-                   "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    {
-                        this.Close();
-                    }
-                    else
-                    {
-                        // Do not close the window  
-                    }
-                    break;
-                case Key.Delete:
-                    RemoveFile();
-                    break;
-                case Key.Insert:
-                    BrowseForFile();
-                    break;
-            }
-        }
-
-        private void RemoveFile()
-        {
-            if(!FilesList.Items.IsEmpty){
-                if (MessageBox.Show("All the files  will be deleted from the list!",
-                        "Remove all", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                {
-                    FilesList.Items.Clear();
-                    HideRemoveButton();
-                }
-            }
-        }
-
-        private void HideRemoveButton()
-        {
-            if (FilesList.Items.Count == 0)
-            {
-                remove.Visibility = Visibility.Hidden;
-                labelTip.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void BrowseForFile()
-        {
-
-            //OpenFileDialog fileDialog = new OpenFileDialog();
-            //fileDialog.ShowDialog();
-            CommonOpenFileDialog fileDialog = new CommonOpenFileDialog
-            {
-                InitialDirectory = projectRootDir,
-                Multiselect = true
-            };
-            if(fileDialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                var fileNames = fileDialog.FileNames;
-                if (fileNames.Count() != 0)
-                {
-                    AddFilesToList(fileNames.ToArray());
-                    labelTip.Visibility = Visibility.Hidden;
-                }
-
-                if (FilesList.Items.Count > 0)
-                {
-                    remove.Visibility = Visibility.Visible;
                 }
             }
         }
