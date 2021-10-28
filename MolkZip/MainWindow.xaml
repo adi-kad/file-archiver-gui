@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MolkZip"
         mc:Ignorable="d"
-        Title="Molk" Height="450" Width="800" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
-        KeyDown="mainWindow_KeyDown">
+        WindowStartupLocation="CenterScreen" 
+        Loaded="Window_Loaded"
+        Title="Molk" Height="450" Width="800"
+        KeyDown="MainWindow_KeyDown">
+
     <Grid Background="#19352154">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -46,8 +49,8 @@
                         <ListBox x:Name="FilesList" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                         <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
                             <StackPanel x:Name="labelTip">
-                                <Image Source="/Images/upload.png" Height="64" VerticalAlignment="Center" />
-                                <TextBlock Text="Drag and drop file or browse" HorizontalAlignment="Center" />
+                              <Image Source="/Images/upload.png" Height="64" VerticalAlignment="Center" />
+                              <TextBlock Text="Drag and drop file or browse" HorizontalAlignment="Center" />
                             </StackPanel>
                         </StackPanel>
                     </Grid>
@@ -58,51 +61,44 @@
                 <Button HorizontalContentAlignment="Stretch" Click="Molk" Margin="10">
                     <Grid>
                         <TextBlock Grid.Column="0" Text="Molk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <!--<Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>-->
+                        <Image Grid.Column="1" Source="/molk.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
                     </Grid>
                 </Button>
                 <Button HorizontalContentAlignment="Stretch" Click="Unmolk" Margin="10">
                     <Grid>
                         <TextBlock Grid.Column="0" Text="Unmolk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <!--<Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>-->
+                        <Image Grid.Column="1" Source="/unmolk.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
                     </Grid>
                     </Button>
 
                 <!--<Button HorizontalContentAlignment="Stretch" Margin="10" Content="Add"/>
                 <Button HorizontalContentAlignment="Stretch" Margin="10" Content="Remove" />-->
-                <Button
-                    Name="addFile"
-                    Content="      Add    "
-                    Margin="10"
-                    HorizontalAlignment="Center"
+                <Button 
+                    Name="addFile" 
+                    Content="Add" 
+                    MouseLeave="AddFile_MouseLeave" 
+                    MouseEnter="AddFile_MouseEnter"  
+                    Margin="10" 
+                    HorizontalAlignment="Center" 
                     HorizontalContentAlignment="Stretch"
-                    Click="browse" 
-                    Background="White"
-                    Foreground="black" Height="37" Width="67">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
+                    Click="BrowseButtonClick" 
+                    Background="White" 
+                    BorderBrush="#FF602483"   
+                    Foreground="black">
                 </Button>
-                <Button
-                    Name="remove"
-                    Content="Remove"
-                    Background="White"
-                    Margin="10"
-                    HorizontalAlignment="Center" Click="removeFileButton" Cursor="Hand"
-                    Visibility="Hidden"
-                    Height="42"
-                    Width="74"
+                <Button 
+                    Name="remove" 
+                    Content="Remove" 
+                    MouseEnter="Remove_MouseEnter" 
+                    MouseLeave="Remove_MouseLeave" Margin="10" 
+                    HorizontalAlignment="Center" Click="RemoveFile" Cursor="Hand" 
+                    Visibility="Hidden" 
+                    Height="50" 
+                    Width="79"  
                     FontSize="16">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="15"/>
-                        </Style>
-                    </Button.Resources>
                 </Button>
-
             </StackPanel>
+          
         </Grid>
 
     </Grid>
