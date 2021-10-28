@@ -5,11 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MolkZip"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" 
-        Loaded="Window_Loaded"
-        Title="Molk" Height="450" Width="800"
+        Title="Molk" Height="450" Width="800" WindowStartupLocation="CenterScreen" 
         KeyDown="MainWindow_KeyDown">
-
     <Grid Background="#19352154">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -87,16 +84,24 @@
                     BorderBrush="#FF602483"   
                     Foreground="black">
                 </Button>
-                <Button 
-                    Name="remove" 
-                    Content="Remove" 
-                    MouseEnter="Remove_MouseEnter" 
-                    MouseLeave="Remove_MouseLeave" Margin="10" 
-                    HorizontalAlignment="Center" Click="RemoveFile" Cursor="Hand" 
-                    Visibility="Hidden" 
-                    Height="50" 
-                    Width="79"  
+                <Button
+                    Name="remove"
+                    Background="White"
+                    Margin="10"
+                    HorizontalAlignment="Center" Click="RemoveFileButton" Cursor="Hand"
+                    Visibility="Visible"
+                    Height="59"
+                    Width="117"
                     FontSize="16">
+                    <Grid>
+                        <TextBlock Grid.Column="0" Text="Remove" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                        <Image Grid.Column="1" Source="/images/remove.png" Height="34" HorizontalAlignment="Left" Margin="74,5,0,5"/>
+                    </Grid>
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
                 </Button>
             </StackPanel>
           
