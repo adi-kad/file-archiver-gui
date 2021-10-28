@@ -17,7 +17,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Windows.Forms.LinkLabel;
-//using System.Windows.Forms;
 
 namespace MolkZip
 {
@@ -193,29 +192,49 @@ namespace MolkZip
         {
             if (e.Key == Key.Delete)
             {
-
                 FilesList.Items.Remove(FilesList.SelectedItem);
                 HideRemoveButton();
             }
         }
 
+        private void RemoveFileButton(object sender, RoutedEventArgs e)
+        {
+            RemoveFile();
+        }
+        
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            switch (e.Key)
             {
-                if (MessageBox.Show("Do you want to close this window?",
-                    "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    this.Close();
-                }
-                else
-                {
-                    // Do not close the window  
-                }
+                case Key.Escape:
+                    if (MessageBox.Show("Do you want to close this window?",
+                   "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        // Do not close the window  
+                    }
+                    break;
+                case Key.Delete:
+                    RemoveFile();
+                    break;
+                case Key.Insert:
+                    BrowseForFile();
+                    break;
             }
-            else if (e.Key == Key.Insert)
-            {
-                BrowseForFile();
+        }
+
+        private void RemoveFile()
+        {
+            if(!FilesList.Items.IsEmpty){
+                if (MessageBox.Show("All the files  will be deleted from the list!",
+                        "Remove all", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    FilesList.Items.Clear();
+                    HideRemoveButton();
+                }
             }
         }
 
