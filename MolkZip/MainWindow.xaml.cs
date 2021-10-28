@@ -17,7 +17,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Windows.Forms.LinkLabel;
-//using System.Windows.Forms;
 
 namespace MolkZip
 {
@@ -193,7 +192,6 @@ namespace MolkZip
         {
             if (e.Key == Key.Delete)
             {
-
                 FilesList.Items.Remove(FilesList.SelectedItem);
                 HideRemoveButton();
             }
@@ -230,12 +228,14 @@ namespace MolkZip
 
         private void RemoveFile()
         {
-          
-            if (MessageBox.Show("All the files  will be deleted from the list!",
-                    "Remove all", MessageBoxButton.OKCancel) == MessageBoxResult.OK){
-                     FilesList.Items.Clear();
-                     hideRemoveButton();
-                     }
+            if(!FilesList.Items.IsEmpty){
+                if (MessageBox.Show("All the files  will be deleted from the list!",
+                        "Remove all", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    FilesList.Items.Clear();
+                    HideRemoveButton();
+                }
+            }
         }
 
         private void HideRemoveButton()
