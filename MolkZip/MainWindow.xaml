@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:MolkZip"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" 
-        Loaded="Window_Loaded"
         Title="Molk" Height="450" Width="800"
         KeyDown="MainWindow_KeyDown">
 
@@ -44,13 +43,23 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Upload your files" Padding="0,0,0,10" FontWeight="Bold"/>
-                <Border AllowDrop="True" Drop="Files_Drop" Grid.Row="1" BorderBrush="#FF352154" BorderThickness="2" Background="#FFF" CornerRadius="5">
+                <Border AllowDrop="True" Drop="Files_Drop" Grid.Row="1" BorderBrush="#BF352154" BorderThickness="2" Background="#FFF" CornerRadius="5">
                     <Grid>
                         <ListBox x:Name="FilesList" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                         <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
                             <StackPanel x:Name="labelTip">
                               <Image Source="/Images/upload.png" Height="64" VerticalAlignment="Center" />
-                              <TextBlock Text="Drag and drop file or browse" HorizontalAlignment="Center" />
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <TextBlock Text="Drag and drop file(s) or" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                                    <Border CornerRadius="8" Margin="10" Background="#FFF0673F" BorderThickness="2">
+                                        <Button Background="Transparent" BorderThickness="0" Click="BrowseButtonClick">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="browse" Foreground="#FFF" FontWeight="DemiBold" VerticalAlignment="Center" Margin="5"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </Border>                                        
+                                </StackPanel>
+                               
                             </StackPanel>
                         </StackPanel>
                     </Grid>
@@ -99,7 +108,6 @@
                     FontSize="16">
                 </Button>
             </StackPanel>
-          
         </Grid>
 
     </Grid>
