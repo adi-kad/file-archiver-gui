@@ -85,6 +85,7 @@ namespace MolkZip
                 if (FilesList.Items.Count > 0)
                 {
                     remove.Visibility = Visibility.Visible;
+                    Toolbar.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -93,6 +94,7 @@ namespace MolkZip
         {
             labelTip.Visibility = Visibility.Hidden;
             remove.Visibility = Visibility.Visible;
+            Toolbar.Visibility = Visibility.Visible;
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -107,6 +109,7 @@ namespace MolkZip
             {
                 remove.Visibility = Visibility.Hidden;
                 labelTip.Visibility = Visibility.Visible;
+                Toolbar.Visibility = Visibility.Hidden;
             }
         }
 

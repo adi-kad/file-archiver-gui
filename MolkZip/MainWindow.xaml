@@ -75,7 +75,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5,5" HorizontalAlignment="Right">
                                 <Border BorderThickness="2"  Margin="5,0" CornerRadius="4" Background="#FFF14747" >
-                                    <Button BorderThickness="0" Background="Transparent">
+                                    <Button BorderThickness="0" Background="Transparent" Click="RemoveFileButton">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Clear all ❌" Foreground="#FFF" VerticalAlignment="Center" Margin="5,0"/>
                                         </StackPanel>

@@ -38,7 +38,7 @@ namespace MolkZip
 
         private void DeleteButtonPress(object sender, RoutedEventArgs e)
         {
-            parentList.Items.Remove(this);
+            parentList.Items.Remove(this);           
         }
     }
 }
