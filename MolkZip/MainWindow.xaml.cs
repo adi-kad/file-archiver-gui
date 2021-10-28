@@ -182,12 +182,6 @@ namespace MolkZip
             BrowseForFile();
         }
 
-        private void RemoveFile(object sender, RoutedEventArgs e)
-        {
-            FilesList.Items.Remove(FilesList.SelectedItem);
-            HideRemoveButton();
-        }
-
         private void FilesList_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
@@ -199,7 +193,7 @@ namespace MolkZip
 
         private void RemoveFileButton(object sender, RoutedEventArgs e)
         {
-            RemoveFile();
+            RemoveAllFiles();
         }
         
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -228,6 +222,16 @@ namespace MolkZip
 
         private void RemoveFile()
         {
+            int deletionIndex = FilesList.SelectedIndex;
+            FilesList.Items.Remove(FilesList.Items[deletionIndex]);
+            if (!FilesList.Items.IsEmpty)
+            {
+                FilesList.SelectedIndex = Math.Min(deletionIndex, FilesList.Items.Count - 1);
+            }
+        }
+
+        private void RemoveAllFiles()
+        {
             if(!FilesList.Items.IsEmpty){
                 if (MessageBox.Show("All the files  will be deleted from the list!",
                         "Remove all", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -249,9 +253,6 @@ namespace MolkZip
 
         private void BrowseForFile()
         {
-
-            //OpenFileDialog fileDialog = new OpenFileDialog();
-            //fileDialog.ShowDialog();
             CommonOpenFileDialog fileDialog = new CommonOpenFileDialog
             {
                 InitialDirectory = projectRootDir,
