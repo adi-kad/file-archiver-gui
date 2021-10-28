@@ -177,8 +177,10 @@ namespace MolkZip
         {
             if (!FilesList.Items.IsEmpty)
             {
-                if (MessageBox.Show("All the files  will be deleted from the list!",
-                        "Remove all", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show("Are you sure you want to clear all files?",
+                        "Remove all",
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     FilesList.Items.Clear();
                     HideRemoveButton();
