@@ -81,19 +81,6 @@
                         </Grid>
                     </Button>
                 </Border>
-                <Button 
-                    Name="addFile" 
-                    Content="Add" 
-                    MouseLeave="AddFile_MouseLeave" 
-                    MouseEnter="AddFile_MouseEnter"  
-                    Margin="10" 
-                    HorizontalAlignment="Center" 
-                    HorizontalContentAlignment="Stretch"
-                    Click="BrowseButtonClick" 
-                    Background="White" 
-                    BorderBrush="#FF602483"   
-                    Foreground="black">
-                </Button>
                 <Button
                     Name="remove"
                     Background="White"

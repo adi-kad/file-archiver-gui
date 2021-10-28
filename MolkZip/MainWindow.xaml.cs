@@ -250,48 +250,27 @@ namespace MolkZip
         private void BrowseForFile()
         {
 
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.ShowDialog();
-            string fileName = fileDialog.FileName;
-            if (fileName != "")
+            //OpenFileDialog fileDialog = new OpenFileDialog();
+            //fileDialog.ShowDialog();
+            CommonOpenFileDialog fileDialog = new CommonOpenFileDialog
             {
-                AddFilesToList(new string[] { fileName });
-                labelTip.Visibility = Visibility.Hidden;
-            }
-
-            if (FilesList.Items.Count > 0)
+                InitialDirectory = projectRootDir,
+                Multiselect = true
+            };
+            if(fileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                remove.Visibility = Visibility.Visible;
+                var fileNames = fileDialog.FileNames;
+                if (fileNames.Count() != 0)
+                {
+                    AddFilesToList(fileNames.ToArray());
+                    labelTip.Visibility = Visibility.Hidden;
+                }
+
+                if (FilesList.Items.Count > 0)
+                {
+                    remove.Visibility = Visibility.Visible;
+                }
             }
-        }
-
-        private void AddFile_MouseMove(object sender, MouseEventArgs e)
-        {
-            addFile.Background = Brushes.Magenta;
-        }
-
-        private void AddFile_MouseEnter(object sender, MouseEventArgs e)
-        {
-            addFile.FontSize = 18;
-            addFile.FontWeight = FontWeights.Bold;
-        }
-
-        private void AddFile_MouseLeave(object sender, MouseEventArgs e)
-        {
-            addFile.FontSize = 16;
-            addFile.FontWeight = FontWeights.Normal;
-        }
-
-        private void Remove_MouseEnter(object sender, MouseEventArgs e)
-        {
-            remove.FontSize = 18;
-            remove.FontWeight = FontWeights.Bold;
-        }
-
-        private void Remove_MouseLeave(object sender, MouseEventArgs e)
-        {
-            remove.FontSize = 16;
-            remove.FontWeight = FontWeights.Bold;
         }
     }
 }
