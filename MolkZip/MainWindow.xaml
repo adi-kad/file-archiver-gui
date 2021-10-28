@@ -18,7 +18,6 @@
             <Grid Grid.Row="0" Background="#FF352154">
                 <Menu VerticalAlignment="Center" Background="Transparent" Padding="0,10">
                     <MenuItem Header="Help" Foreground="#FFF"/>
-                    <MenuItem Header="?????"  Foreground="#FFF"/>
                 </Menu>
                 <TextBlock HorizontalAlignment="Right">
 					 <Hyperlink NavigateUri="https://www.molk.com" TextDecorations="None"	>
