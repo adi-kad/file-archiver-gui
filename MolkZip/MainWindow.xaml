@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MolkZip"
         mc:Ignorable="d"
-        Title="Molk" Height="450" Width="800">
+        Title="Molk" Height="450" Width="800" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
+        KeyDown="mainWindow_KeyDown">
     <Grid Background="#19352154">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -14,13 +15,17 @@
 
         <!--Menyraden-->
         <StackPanel  Grid.Column="3" VerticalAlignment="Center">
-        <Grid Grid.Row="0" Background="#FF352154">
-            <Menu VerticalAlignment="Center" Background="Transparent" Padding="0,10">
-                <MenuItem Header="Help" Foreground="#FFF"/>
+            <Grid Grid.Row="0" Background="#FF352154">
+                <Menu VerticalAlignment="Center" Background="Transparent" Padding="0,10">
+                    <MenuItem Header="Help" Foreground="#FFF"/>
                     <MenuItem Header="?????"  Foreground="#FFF"/>
-            </Menu>
-            <Image Source="/logo-vit.png" HorizontalAlignment="Right" Height="15" Margin="15,10"/>
-        </Grid>
+                </Menu>
+                <TextBlock HorizontalAlignment="Right">
+					 <Hyperlink NavigateUri="https://www.molk.com" TextDecorations="None"	>
+						<Image Source="/logo-vit.png" HorizontalAlignment="Right" Height="15" Margin="15,10"/>
+                    </Hyperlink>
+                </TextBlock>
+            </Grid>
         </StackPanel>
 
         <!--Mittenraden-->
@@ -36,12 +41,16 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Upload your files" Padding="0,0,0,10" FontWeight="Bold"/>
-                <Border Grid.Row="1" BorderBrush="#FF352154" BorderThickness="2" Background="#FFF" CornerRadius="5">
-                    <StackPanel Grid.Row="1" Grid.Column="0" x:Name="Files" AllowDrop="True" VerticalAlignment="Center">
-                        <Image Source="Images/upload.png" Height="64" VerticalAlignment="Center"/>
-                        <TextBlock Text="Drag and drop file or browse" HorizontalAlignment="Center"/>
-                        <ListBox x:Name="FilesList" Drop="Files_Drop" AllowDrop="True" HorizontalAlignment="Center" Visibility="Hidden"/>
-                    </StackPanel>
+                <Border AllowDrop="True" Drop="Files_Drop" Grid.Row="1" BorderBrush="#FF352154" BorderThickness="2" Background="#FFF" CornerRadius="5">
+                    <Grid>
+                        <ListBox x:Name="FilesList" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                        <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
+                            <StackPanel x:Name="labelTip">
+                                <Image Source="/Images/upload.png" Height="64" VerticalAlignment="Center" />
+                                <TextBlock Text="Drag and drop file or browse" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </Grid>
 
@@ -49,15 +58,50 @@
                 <Button HorizontalContentAlignment="Stretch" Click="Molk" Margin="10">
                     <Grid>
                         <TextBlock Grid.Column="0" Text="Molk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
+                        <!--<Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>-->
                     </Grid>
                 </Button>
                 <Button HorizontalContentAlignment="Stretch" Click="Unmolk" Margin="10">
                     <Grid>
                         <TextBlock Grid.Column="0" Text="Unmolk" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>
+                        <!--<Image Grid.Column="1" Source="images/upload.png" Height="34" HorizontalAlignment="Right" Margin="10,5"/>-->
                     </Grid>
+                    </Button>
+
+                <!--<Button HorizontalContentAlignment="Stretch" Margin="10" Content="Add"/>
+                <Button HorizontalContentAlignment="Stretch" Margin="10" Content="Remove" />-->
+                <Button
+                    Name="addFile"
+                    Content="      Add    "
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Stretch"
+                    Click="browse" 
+                    Background="White"
+                    Foreground="black" Height="37" Width="67">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
                 </Button>
+                <Button
+                    Name="remove"
+                    Content="Remove"
+                    Background="White"
+                    Margin="10"
+                    HorizontalAlignment="Center" Click="removeFileButton" Cursor="Hand"
+                    Visibility="Hidden"
+                    Height="42"
+                    Width="74"
+                    FontSize="16">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
             </StackPanel>
         </Grid>
 

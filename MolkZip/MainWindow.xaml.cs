@@ -1,4 +1,3 @@
-
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 ﻿using Microsoft.Win32;
 using System;
@@ -17,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.LinkLabel;
 //using System.Windows.Forms;
 
 namespace MolkZip
@@ -29,14 +29,16 @@ namespace MolkZip
         //Assumes Visual Studio project folder structure
         static readonly string projectRootDir =
             Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\";
-
+        
         public MainWindow()
         {
             InitializeComponent();
         }
-
         private void Files_Drop(object sender, DragEventArgs e)
         {
+            labelTip.Visibility = Visibility.Hidden;
+            remove.Visibility = Visibility.Visible;
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -61,8 +63,8 @@ namespace MolkZip
                     if (!isDuplicate)
                     {
                         //TODO: Do some testing to see if these commented-out lines are actually needed.
-                        //ListBoxItem file = new ListBoxItem();
-                        //file.Content = filename;
+                        ListBoxItem file = new ListBoxItem();
+                        file.Content = filename;
                         FilesList.Items.Add(filename);
 
                     }
@@ -97,7 +99,7 @@ namespace MolkZip
                 MessageBox.Show("Couldn't molk." +
                                 "\nReason: File list is empty.",
                                 "Couldn't molk",
-                                MessageBoxButton.OK,
+                                MessageBoxButton.OKCancel,
                                 MessageBoxImage.Exclamation);
             }
             else if (folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
@@ -130,13 +132,14 @@ namespace MolkZip
             {
                 destinationFolder = dialog.SelectedPath;
             }
-            
+
             string unmolkPath = projectRootDir + "unmolk.exe";
-            CommonOpenFileDialog folderPickerDialog = new CommonOpenFileDialog {
+            CommonOpenFileDialog folderPickerDialog = new CommonOpenFileDialog
+            {
                 IsFolderPicker = true,
                 InitialDirectory = projectRootDir,
             };
-            
+
             if (FilesList.Items.IsEmpty)
             {
                 MessageBox.Show("Couldn't unmolk." +
@@ -145,13 +148,13 @@ namespace MolkZip
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Exclamation);
             }
-            else if(folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            else if (folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 int successfulUnmolks = 0;
-                foreach(string filepath in FilesList.Items)
+                foreach (string filepath in FilesList.Items)
                 {
                     //Primitive check to see if file is a molk archive
-                    if(System.IO.Path.GetExtension(filepath) != ".molk")
+                    if (System.IO.Path.GetExtension(filepath) != ".molk")
                     {
                         MessageBox.Show("Couldn't unmolk file " + filepath +
                                 "\nReason: File is not a molk archive.",
@@ -167,7 +170,7 @@ namespace MolkZip
                     RunCLIprogram(unmolkPath, args);
                     ++successfulUnmolks;
                 }
-                if(successfulUnmolks > 0)
+                if (successfulUnmolks > 0)
                 {
                     MessageBox.Show($"Unmolked {successfulUnmolks} molk archives.",
                                 "Unmolking done",
@@ -175,6 +178,70 @@ namespace MolkZip
                                 MessageBoxImage.Information);
                 }
             }
+        }
+
+        private void browse(object sender, RoutedEventArgs e)
+        {
+            addFiles();
+        }
+
+        private void removeFileButton(object sender, RoutedEventArgs e)
+        {
+            removeFile();
+        }
+        private void mainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    if (MessageBox.Show("Do you want to close this window?",
+                   "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        // Do not close the window  
+                    }
+                    break;
+                case Key.Delete:
+                    removeFile();
+                    break;
+                case Key.Insert:
+                    addFiles();
+                    break;
+            }
+        }
+
+
+        private void removeFile()
+        {
+            if (FilesList.SelectedItem != null)
+            {
+                FilesList.Items.Remove(FilesList.SelectedItem);
+                hideRemoveButton();
+            }
+            else
+            {
+                MessageBox.Show("Please select a file from the list", "Remove",
+                      MessageBoxButton.OK,
+                      MessageBoxImage.Exclamation);
+            }
+        }
+        private void hideRemoveButton()
+        {
+            if (FilesList.Items.IsEmpty)
+            {
+                remove.Visibility = Visibility.Hidden;
+                labelTip.Visibility = Visibility.Visible;
+            }
+        }
+        private void addFiles()
+        {
+            var fileExplorer = new System.Diagnostics.ProcessStartInfo();
+            fileExplorer.FileName = "explorer.exe";
+            fileExplorer.Arguments = @"";
+            System.Diagnostics.Process.Start(fileExplorer);
         }
     }
 }
