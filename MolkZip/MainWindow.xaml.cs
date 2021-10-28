@@ -216,10 +216,12 @@ namespace MolkZip
 
         private void removeFile()
         {
-            hideRemoveButton();
+          
             if (MessageBox.Show("All the files  will be deleted from the list!",
-                    "Remove all", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    "Remove all", MessageBoxButton.OKCancel) == MessageBoxResult.OK){
                      FilesList.Items.Clear();
+                     hideRemoveButton();
+                     }
         }
         private void hideRemoveButton()
         {
