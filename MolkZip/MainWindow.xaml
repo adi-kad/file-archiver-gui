@@ -104,25 +104,6 @@
                         </Grid>
                     </Button>
                 </Border>
-                <Button
-                    Name="remove"
-                    Background="White"
-                    Margin="10"
-                    HorizontalAlignment="Center" Click="RemoveFileButton" Cursor="Hand"
-                    Visibility="Hidden"
-                    Height="59"
-                    Width="117"
-                    FontSize="16">
-                    <Grid>
-                        <TextBlock Grid.Column="0" Text="Remove" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
-                        <Image Grid.Column="1" Source="/images/remove.png" Height="34" HorizontalAlignment="Left" Margin="74,5,0,5"/>
-                    </Grid>
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="15"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
             </StackPanel>
         </Grid>
 
