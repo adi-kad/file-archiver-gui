@@ -84,7 +84,6 @@ namespace MolkZip
 
                 if (FilesList.Items.Count > 0)
                 {
-                    remove.Visibility = Visibility.Visible;
                     Toolbar.Visibility = Visibility.Visible;
                 }
             }
@@ -93,7 +92,6 @@ namespace MolkZip
         private void Files_Drop(object sender, DragEventArgs e)
         {
             labelTip.Visibility = Visibility.Hidden;
-            remove.Visibility = Visibility.Visible;
             Toolbar.Visibility = Visibility.Visible;
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -103,11 +101,10 @@ namespace MolkZip
             }
         }
 
-        private void HideRemoveButton()
+        private void HideRemoveButtons()
         {
             if (FilesList.Items.Count == 0)
             {
-                remove.Visibility = Visibility.Hidden;
                 labelTip.Visibility = Visibility.Visible;
                 Toolbar.Visibility = Visibility.Hidden;
             }
@@ -183,7 +180,7 @@ namespace MolkZip
                         MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     FilesList.Items.Clear();
-                    HideRemoveButton();
+                    HideRemoveButtons();
                 }
             }
         }
@@ -237,17 +234,14 @@ namespace MolkZip
             else if (folderPickerDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 int successfulUnmolks = 0;
+                int nonMolkFiles = 0;
 
                 foreach (FilesListItem item in FilesList.Items)
                 {
                     //Primitive check to see if file is a molk archive
                     if (System.IO.Path.GetExtension(item.Filename) != ".molk")
                     {
-                        MessageBox.Show($"Couldn't unmolk file {System.IO.Path.GetFileName(item.FullPath)}" +
-                                "\nReason: File is not a molk archive.",
-                                "Couldn't unmolk file",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Exclamation);
+                        ++nonMolkFiles;
                         continue;
                     }
                     List<string> args = new List<string>();
@@ -256,6 +250,14 @@ namespace MolkZip
                     args.Add(folderPickerDialog.FileName);
                     RunCLIprogram(unmolkPath, args);
                     ++successfulUnmolks;
+                }
+                if (nonMolkFiles > 0)
+                {
+                    MessageBox.Show("Some files in the list are not molk archives\n" +
+                                "and will not be unmolked.",
+                                $"Skipping {nonMolkFiles} files",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
                 }
                 if (successfulUnmolks > 0)
                 {
